@@ -15,7 +15,6 @@ namespace Todo.Infrastructure.Repositories
 
         public int? Create(User entity)
         {
-            File.WriteAllBytes(JsonConvert.)
             _databaseContext.Set<User>().Add(entity);
             return entity.Id;
         }
@@ -33,6 +32,14 @@ namespace Todo.Infrastructure.Repositories
         public User? GetById(int id)
         {
             return _databaseContext.Set<User>().AsQueryable().Where(e => e.Id == id).FirstOrDefault();
+        }
+
+        public bool IsExistingName(string name)
+        {
+            return _databaseContext.Set<User>().AsQueryable()
+                .Where(e => e.Name!.ToLower() == name.ToLower())
+                .Select(e => e.Id)
+                .Any();
         }
 
         public void Update(User entity)

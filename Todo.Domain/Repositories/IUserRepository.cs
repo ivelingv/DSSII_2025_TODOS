@@ -4,6 +4,6 @@ namespace Todo.Domain.Repositories
 {
     public interface IUserRepository : IRepository<User>
     {
-
+        bool IsExistingName(string name);
     }
 }
