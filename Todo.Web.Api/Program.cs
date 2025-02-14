@@ -1,3 +1,6 @@
+using Todo.Infrastructure;
+using Todo.Application;
+
 namespace Todo.Web.Api
 {
     public class Program
@@ -12,6 +15,8 @@ namespace Todo.Web.Api
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.ConfigureDatabase();
+            builder.Services.AddServices();
 
             var app = builder.Build();
 

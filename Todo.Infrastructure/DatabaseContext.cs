@@ -1,5 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿#pragma warning disable CS8618
+
+using Microsoft.EntityFrameworkCore;
 using Todo.Domain.Models;
+using Todo.Infrastructure.Mappings;
 
 namespace Todo.Infrastructure
 {
@@ -8,5 +11,28 @@ namespace Todo.Infrastructure
         public DbSet<User> Users { get; set; }
         public DbSet<TodoList> Todos { get; set; }
         public DbSet<TodoTask> Tasks { get; set; }
+
+        public DatabaseContext(DbContextOptions options) 
+            : base(options)
+        {
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfiguration(new UserMapping());
+
+            base.OnModelCreating(modelBuilder);
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlite(
+                "Data Source = main_db",
+                options => options.MigrationsAssembly(
+                    typeof(DatabaseContext).Assembly.GetName().Name));
+
+            base.OnConfiguring(optionsBuilder);
+        }
     }
 }
+#pragma warning restore CS8618
