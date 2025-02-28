@@ -90,5 +90,22 @@ namespace Todo.Web.Api.Controllers
 
             return Ok();
         }
+
+        [HttpPost("ValidatePassword")]
+        public IActionResult ValidatePassword([FromBody] ValidatePasswordInput validatePassword)
+        {
+            if (string.IsNullOrEmpty(validatePassword.Password)
+                || string.IsNullOrEmpty(validatePassword.Name))
+            {
+                return BadRequest("Invalid input parameters");
+            }
+
+            var result  = _userService.ValidatePassword(
+                validatePassword.Name, 
+                validatePassword.Password);
+
+            return Ok(result);
+        }
+
     }
 }

@@ -74,5 +74,21 @@ namespace Todo.Application.Services
 
             _repository.Update(user);
         }
+
+        public bool ValidatePassword(string name, string password)
+        {
+            var user = _repository.GetByName(name);
+            if (user is null)
+            {
+                return false;
+            }
+
+            if (password != user.Password)
+            {
+                return false;
+            }
+
+            return true;
+        }
     }
 }

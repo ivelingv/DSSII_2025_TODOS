@@ -46,5 +46,17 @@ namespace Todo.Infrastructure.Repositories
         {
             _databaseContext.Update<User>(entity);
         }
+
+        public User? GetByName(string name)
+        {
+            if (name is null)
+            {
+                return null;
+            }
+
+            return _databaseContext.Set<User>().AsQueryable()
+                .Where(e => e.Name!.ToLower() == name.ToLower())
+                .FirstOrDefault();
+        }
     }
 }

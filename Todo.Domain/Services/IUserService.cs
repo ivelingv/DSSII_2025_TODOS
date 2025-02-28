@@ -13,5 +13,7 @@ namespace Todo.Domain.Services
         public void Update(int id, string name);
 
         public void Delete(int id);
+
+        bool ValidatePassword(string name, string password);
     }
 }
