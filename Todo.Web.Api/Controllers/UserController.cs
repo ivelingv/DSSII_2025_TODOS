@@ -30,7 +30,7 @@ namespace Todo.Web.Api.Controllers
                 return BadRequest("user wit this id was not found");
             }
 
-            return Ok(new { user.Id, user.Name });
+            return Ok(new { user.Id, user.Name, user.IsAdmin });
         }
 
         [HttpGet("GetAll")]
@@ -44,7 +44,7 @@ namespace Todo.Web.Api.Controllers
 
             return Ok(
                 users
-                .Select(user => new { user.Id, user.Name })
+                .Select(user => new { user.Id, user.Name, user.IsAdmin })
                 .ToArray());
         }
 
@@ -57,7 +57,7 @@ namespace Todo.Web.Api.Controllers
                 return BadRequest("Invalid input parameters");
             }
 
-            _userService.Create(user.Name, user.Password);
+            _userService.Create(user.Name, user.Password, user.IsAdmin);
 
             return Ok();
         }

@@ -8,7 +8,7 @@ namespace Todo.Domain.Services
 
         public IEnumerable<User> GetUsers();
 
-        public void Create(string name, string password);
+        public void Create(string name, string password, bool isAdmin);
 
         public void Update(int id, string name);
 

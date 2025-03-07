@@ -80,6 +80,12 @@ namespace Todo.Infrastructure.Migrations
                         .HasColumnType("INTEGER")
                         .HasColumnName("id");
 
+                    b.Property<bool>("IsAdmin")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasDefaultValue(false)
+                        .HasColumnName("is_admin");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT")
