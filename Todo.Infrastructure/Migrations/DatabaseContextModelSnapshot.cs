@@ -21,56 +21,71 @@ namespace Todo.Infrastructure.Migrations
                 {
                     b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("id");
 
                     b.Property<DateTime>("Date")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("date");
 
                     b.Property<string>("Description")
-                        .HasColumnType("TEXT");
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("description");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("NumberOfTasks")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("number_of_tasks");
 
                     b.Property<int?>("UserId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("user_id");
 
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Todos");
+                    b.ToTable("todo_lists", "dbo");
                 });
 
             modelBuilder.Entity("Todo.Domain.Models.TodoTask", b =>
                 {
                     b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("id");
 
                     b.Property<string>("Description")
-                        .HasColumnType("TEXT");
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("description");
 
                     b.Property<DateTime>("DueDate")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("date");
 
                     b.Property<int?>("HolderId")
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsCompleted")
-                        .HasColumnType("INTEGER");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasDefaultValue(false)
+                        .HasColumnName("is_completed");
 
                     b.Property<int?>("TodoId")
-                        .HasColumnType("INTEGER");
+                        .IsRequired()
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("todo_id");
 
                     b.HasKey("Id");
 
                     b.HasIndex("HolderId");
 
-                    b.ToTable("Tasks");
+                    b.ToTable("todo_tasks", "dbo");
                 });
 
             modelBuilder.Entity("Todo.Domain.Models.User", b =>
@@ -118,7 +133,8 @@ namespace Todo.Infrastructure.Migrations
                 {
                     b.HasOne("Todo.Domain.Models.TodoList", "Holder")
                         .WithMany("Tasks")
-                        .HasForeignKey("HolderId");
+                        .HasForeignKey("HolderId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Holder");
                 });

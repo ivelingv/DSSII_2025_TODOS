@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Todo.Infrastructure.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -20,7 +20,8 @@ namespace Todo.Infrastructure.Migrations
                     id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     name = table.Column<string>(type: "TEXT", nullable: false),
-                    password = table.Column<string>(type: "TEXT", nullable: false)
+                    password = table.Column<string>(type: "TEXT", nullable: false),
+                    is_admin = table.Column<bool>(type: "INTEGER", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
@@ -28,23 +29,24 @@ namespace Todo.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Todos",
+                name: "todo_lists",
+                schema: "dbo",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                    id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Description = table.Column<string>(type: "TEXT", nullable: true),
-                    UserId = table.Column<int>(type: "INTEGER", nullable: true),
+                    description = table.Column<string>(type: "TEXT", nullable: false),
+                    user_id = table.Column<int>(type: "INTEGER", nullable: true),
                     IsActive = table.Column<bool>(type: "INTEGER", nullable: false),
-                    Date = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    NumberOfTasks = table.Column<int>(type: "INTEGER", nullable: false)
+                    date = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    number_of_tasks = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Todos", x => x.Id);
+                    table.PrimaryKey("PK_todo_lists", x => x.id);
                     table.ForeignKey(
-                        name: "FK_Todos_users_UserId",
-                        column: x => x.UserId,
+                        name: "FK_todo_lists_users_user_id",
+                        column: x => x.user_id,
                         principalSchema: "dbo",
                         principalTable: "users",
                         principalColumn: "id",
@@ -52,36 +54,41 @@ namespace Todo.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Tasks",
+                name: "todo_tasks",
+                schema: "dbo",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                    id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Description = table.Column<string>(type: "TEXT", nullable: true),
-                    TodoId = table.Column<int>(type: "INTEGER", nullable: true),
-                    IsCompleted = table.Column<bool>(type: "INTEGER", nullable: false),
-                    DueDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    description = table.Column<string>(type: "TEXT", nullable: false),
+                    todo_id = table.Column<int>(type: "INTEGER", nullable: false),
+                    is_completed = table.Column<bool>(type: "INTEGER", nullable: false, defaultValue: false),
+                    date = table.Column<DateTime>(type: "TEXT", nullable: false),
                     HolderId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Tasks", x => x.Id);
+                    table.PrimaryKey("PK_todo_tasks", x => x.id);
                     table.ForeignKey(
-                        name: "FK_Tasks_Todos_HolderId",
+                        name: "FK_todo_tasks_todo_lists_HolderId",
                         column: x => x.HolderId,
-                        principalTable: "Todos",
-                        principalColumn: "Id");
+                        principalSchema: "dbo",
+                        principalTable: "todo_lists",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Tasks_HolderId",
-                table: "Tasks",
-                column: "HolderId");
+                name: "IX_todo_lists_user_id",
+                schema: "dbo",
+                table: "todo_lists",
+                column: "user_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Todos_UserId",
-                table: "Todos",
-                column: "UserId");
+                name: "IX_todo_tasks_HolderId",
+                schema: "dbo",
+                table: "todo_tasks",
+                column: "HolderId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_users_name",
@@ -94,10 +101,12 @@ namespace Todo.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Tasks");
+                name: "todo_tasks",
+                schema: "dbo");
 
             migrationBuilder.DropTable(
-                name: "Todos");
+                name: "todo_lists",
+                schema: "dbo");
 
             migrationBuilder.DropTable(
                 name: "users",
