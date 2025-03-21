@@ -13,7 +13,7 @@ namespace Todo.Application.Services
             _repository = repository;
         }
 
-        public void Create(string name, string password, bool isAdmin)
+        public int? Create(string name, string password, bool isAdmin)
         {
             var existingUser = _repository.IsExistingName(name);
             if (existingUser)
@@ -22,7 +22,8 @@ namespace Todo.Application.Services
                     "User with such name already exists");
             }
 
-            _repository.Create(new User { Name = name, Password = password, IsAdmin = isAdmin });
+            var userId = _repository.Create(new User { Name = name, Password = password, IsAdmin = isAdmin });
+            return userId;
         }
 
         public void Delete(int id)
@@ -75,20 +76,20 @@ namespace Todo.Application.Services
             _repository.Update(user);
         }
 
-        public bool ValidatePassword(string name, string password)
+        public int? ValidatePassword(string name, string password)
         {
             var user = _repository.GetByName(name);
             if (user is null)
             {
-                return false;
+                return null;
             }
 
             if (password != user.Password)
             {
-                return false;
+                return null;
             }
 
-            return true;
+            return user.Id;
         }
     }
 }

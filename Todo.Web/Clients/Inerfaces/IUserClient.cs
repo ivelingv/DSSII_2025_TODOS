@@ -13,7 +13,7 @@ namespace Todo.Web.Clients.Inerfaces
         Task<UserModel[]> GetAll();
 
         [Post("/CreateUser")]
-        Task CreateUser([Body] CreateUserInputModel user);
+        Task<int?> CreateUser([Body] CreateUserInputModel user);
 
         [Put("/UpdateUser/{id}")]
         Task UpdateUser([Required] int? id, [Body] UpdateUserInputModel user);
@@ -22,6 +22,6 @@ namespace Todo.Web.Clients.Inerfaces
         Task DeleteUser([Required] int? id);
 
         [Post("/ValidatePassword")]
-        Task<bool> ValidatePassword([Body] ValidatePasswordInputModel validatePassword);
+        Task<int?> ValidatePassword([Body] ValidatePasswordInputModel validatePassword);
     }
 }

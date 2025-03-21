@@ -5,7 +5,7 @@ using Todo.Web.Models;
 
 namespace Todo.Web.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Administrator")]
     public class UsersController : Controller
     {
         private readonly IUserClient _userClient;
@@ -15,7 +15,6 @@ namespace Todo.Web.Controllers
             _userClient = userClient;
         }
 
-        // GET: UserViewModels
         public async Task<IActionResult> Index()
         {
             var users = await _userClient.GetAll();
@@ -27,7 +26,6 @@ namespace Todo.Web.Controllers
             return View(viewModels);
         }
 
-        // GET: UserViewModels/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -50,15 +48,11 @@ namespace Todo.Web.Controllers
             });
         }
 
-        // GET: UserViewModels/Create
         public IActionResult Create()
         {
             return View();
         }
-
-        // POST: UserViewModels/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+                
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Name, Password, IsAdmin")] CreateUserViewModel userViewModel)
@@ -78,7 +72,6 @@ namespace Todo.Web.Controllers
             return View(userViewModel);
         }
 
-        // GET: UserViewModels/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -100,10 +93,7 @@ namespace Todo.Web.Controllers
                 IsAdmin = user.IsAdmin
             });
         }
-
-        // POST: UserViewModels/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+                
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int? id, [Bind("Id,Name")] UserViewModel userViewModel)
@@ -126,7 +116,6 @@ namespace Todo.Web.Controllers
             return View(userViewModel);
         }
 
-        // GET: UserViewModels/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -148,7 +137,6 @@ namespace Todo.Web.Controllers
             });
         }
 
-        // POST: UserViewModels/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int? id)

@@ -8,12 +8,12 @@ namespace Todo.Domain.Services
 
         public IEnumerable<User> GetUsers();
 
-        public void Create(string name, string password, bool isAdmin);
+        public int? Create(string name, string password, bool isAdmin);
 
         public void Update(int id, string name);
 
         public void Delete(int id);
 
-        bool ValidatePassword(string name, string password);
+        int? ValidatePassword(string name, string password);
     }
 }

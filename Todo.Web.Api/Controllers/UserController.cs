@@ -57,9 +57,9 @@ namespace Todo.Web.Api.Controllers
                 return BadRequest("Invalid input parameters");
             }
 
-            _userService.Create(user.Name, user.Password, user.IsAdmin);
+            var userId = _userService.Create(user.Name, user.Password, user.IsAdmin);
 
-            return Ok();
+            return Ok(userId);
         }
 
         [HttpPut("UpdateUser/{id}")]

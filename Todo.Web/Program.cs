@@ -13,10 +13,16 @@ namespace Todo.Web
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-
+            builder.Services.AddLogging(opt =>
+            {
+                opt.ClearProviders();
+                opt.SetMinimumLevel(LogLevel.Debug);
+                opt.AddConsole();
+            });
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
                 {
+                    options.AccessDeniedPath = "/Home/Index";
                     options.LoginPath = "/Login/Index";
                     options.Cookie = new CookieBuilder
                     {
@@ -33,7 +39,7 @@ namespace Todo.Web
             {
                 e.AddPolicy("Administrator", e =>
                 {
-                    e.RequireRole("Admin");
+                    e.RequireRole("Administrator");
                 });
 
                 e.DefaultPolicy = new AuthorizationPolicyBuilder()
