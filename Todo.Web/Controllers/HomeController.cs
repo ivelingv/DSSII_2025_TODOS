@@ -20,6 +20,7 @@ namespace Todo.Web.Controllers
             return View();
         }
 
+        [Authorize(Policy = "Administrator")]
         public IActionResult Privacy()
         {
             return View();

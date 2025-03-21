@@ -15,9 +15,8 @@ namespace Todo.Infrastructure.Repositories
 
         public int? Create(User entity)
         {
-            var inserted = _databaseContext.Set<User>().Add(entity);
-            _databaseContext.SaveChanges();
-            return inserted.Entity.Id;
+            _databaseContext.Set<User>().Add(entity);
+            return entity.Id;
         }
 
         public void Delete(User entity)
