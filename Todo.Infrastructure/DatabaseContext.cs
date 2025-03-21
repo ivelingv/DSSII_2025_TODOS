@@ -20,6 +20,8 @@ namespace Todo.Infrastructure
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new UserMapping());
+            modelBuilder.ApplyConfiguration(new TodoListMapping());
+            modelBuilder.ApplyConfiguration(new TodoTaskMapping());
 
             base.OnModelCreating(modelBuilder);
         }

@@ -17,6 +17,8 @@ namespace Todo.Infrastructure
 
             services.AddScoped<DatabaseContext>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<ITodoListRepository, TodoListRepository>();
+            services.AddScoped<ITodoTaskRepository, TodoTaskRepository>();
 
             return services;
         }
