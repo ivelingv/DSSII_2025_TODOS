@@ -26,8 +26,10 @@ namespace Todo.Web.Controllers
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        [HttpGet("Error/{statusCode}")]
+        public IActionResult Error([FromRoute] string statusCode)
         {
+            ViewBag.StatusCode = statusCode;
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }

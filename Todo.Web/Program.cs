@@ -22,7 +22,7 @@ namespace Todo.Web
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
                 {
-                    options.AccessDeniedPath = "/Home/Index";
+                    options.AccessDeniedPath = "/Error/403";
                     options.LoginPath = "/Login/Index";
                     options.Cookie = new CookieBuilder
                     {
@@ -65,7 +65,7 @@ namespace Todo.Web
 
             app.UseRouting();
 
-            app.UseAuthorization().UseAuthorization();
+            app.UseAuthentication().UseAuthorization();
 
             app.MapControllerRoute(
                 name: "default",
