@@ -51,7 +51,7 @@ namespace Todo.Web
             builder.Services.AddRefitClient<IUserClient>()
                 .ConfigureHttpClient(e =>
                 {
-                    e.BaseAddress = new Uri("http://localhost:5000/api/user");
+                    e.BaseAddress = new Uri("http://web-api-todo/api/user");
                 });
 
             var app = builder.Build();
