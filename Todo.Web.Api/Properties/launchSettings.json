@@ -19,6 +19,5 @@
       },
       "publishAllPorts": true
     }
-  },
-  "$schema": "https://json.schemastore.org/launchsettings.json"
+  }
 }

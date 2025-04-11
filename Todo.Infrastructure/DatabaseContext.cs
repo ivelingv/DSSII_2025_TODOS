@@ -28,10 +28,13 @@ namespace Todo.Infrastructure
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite(
-                "Data Source = main_db",
-                options => options.MigrationsAssembly(
-                    typeof(DatabaseContext).Assembly.GetName().Name));
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlite(
+                    "Data Source = main_db",
+                    options => options.MigrationsAssembly(
+                        typeof(DatabaseContext).Assembly.GetName().Name));
+            }
 
             base.OnConfiguring(optionsBuilder);
         }

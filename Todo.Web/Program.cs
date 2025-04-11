@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Refit;
+using System;
 using Todo.Web.Clients.Inerfaces;
 
 namespace Todo.Web
@@ -51,7 +52,7 @@ namespace Todo.Web
             builder.Services.AddRefitClient<IUserClient>()
                 .ConfigureHttpClient(e =>
                 {
-                    e.BaseAddress = new Uri("http://web-api-todo/api/user");
+                    e.BaseAddress = new Uri($"{Environment.GetEnvironmentVariable("WEB_API_URL")}api/user");
                 });
 
             var app = builder.Build();

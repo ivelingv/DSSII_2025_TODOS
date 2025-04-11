@@ -114,10 +114,11 @@ namespace Todo.Web.Controllers
 
         private async Task SignInAsync(int? userId, string userName, bool isAdmin)
         {
-            var claimsIdentity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
+            var claimsIdentity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme, "name", "role");
             claimsIdentity.AddClaim(new Claim("name", userName));
             claimsIdentity.AddClaim(new Claim("userId", userId?.ToString() ?? string.Empty));
             claimsIdentity.AddClaim(new Claim("role", isAdmin ? "Administrator" : "User"));
+
             var principal = new ClaimsPrincipal(claimsIdentity);
 
             await HttpContext.SignInAsync(principal);
